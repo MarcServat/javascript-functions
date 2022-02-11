@@ -8,13 +8,11 @@ function same([x, y], [j, k]) {
 
 // The game state to search for `cell` is passed as the `this` value of the function.
 function contains(cell) {
-  return Boolean(this.reduce((acc, gameCell) => {
-    return gameCell[0] === cell[0] && gameCell[1] === cell[1];
-  }, false));
+  return this.some((gameCell) => same(gameCell, cell));
 }
 
 const printCell = (cell, state) => {
-  if (state.contains(cell)) {
+  if (contains.call(state, cell)) {
     return '\u25A3';
   } else {
     return '\u25A2';
