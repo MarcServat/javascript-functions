@@ -19,9 +19,17 @@ const printCell = (cell, state) => {
   }
 };
 
-const corners = (state = []) => {};
+const corners = (state = []) => {
+  if (!state.length) return { topRight: [0, 0], bottomLeft: [0, 0] }
 
-const printCells = (state) => {};
+  const x = state.map(cell => cell[0]);
+  const y = state.map(cell => cell[1]);
+  return {
+    topRight: [Math.max(...x), Math.max(...y)],
+    bottomLeft: [Math.min(...x), Math.min(...y)]
+  }
+};
+
 
 const getNeighborsOf = ([x, y]) => {};
 
