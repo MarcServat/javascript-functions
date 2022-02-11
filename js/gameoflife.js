@@ -6,6 +6,14 @@ function same([x, y], [j, k]) {
   return x === j && y === k;
 }
 
+function getXs(state) {
+  return state.map(cell => cell[0]);
+}
+
+function getYs(state) {
+  return state.map(cell => cell[1]);
+}
+
 // The game state to search for `cell` is passed as the `this` value of the function.
 function contains(cell) {
   return this.some((gameCell) => same(gameCell, cell));
@@ -21,16 +29,25 @@ const printCell = (cell, state) => {
 
 const corners = (state = []) => {
   if (!state.length) return { topRight: [0, 0], bottomLeft: [0, 0] }
-
-  const x = state.map(cell => cell[0]);
-  const y = state.map(cell => cell[1]);
   return {
-    topRight: [Math.max(...x), Math.max(...y)],
-    bottomLeft: [Math.min(...x), Math.min(...y)]
+    topRight: [Math.max(...getXs(state)), Math.max(...getYs(state))],
+    bottomLeft: [Math.min(...getXs(state)), Math.min(...getYs(state))]
   }
 };
 
-const printCells = (state) => {};
+const printCells = (state) => {
+  const { topRight, bottomLeft } = corners(state);
+
+  let accumulator = '';
+  for (let y = topRight[1]; y >= bottomLeft[1]; --y) {
+    let row = [];
+    for (let x = bottomLeft[0]; x <= topRight[0]; x++) {
+      row.push(printCell([x, y], state));
+    }
+    accumulator += row.join(" ") + "\n";
+  }
+  return accumulator;
+};
 
 const getNeighborsOf = ([x, y]) => {};
 
